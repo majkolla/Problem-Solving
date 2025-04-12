@@ -1,0 +1,64 @@
+Correct Greedy Approach
+The proven greedy strategy is to sort the activities by finish time (earliest finishing first),
+then iterate over them, always placing an activity into a classroom if possible. If you have 
+𝑘 or fewer ongoing activities, you can accept the new one; otherwise you skip it. 
+You track ongoing activities via a min‐heap of finishing times.
+
+Line 1–2: Import sys for reading from standard input and heapq for the min‐heap.
+Line 4: Define the solve() function which will handle all the logic.
+Line 7: Read all input at once from stdin (sys.stdin.read()), strip whitespace, and split into tokens.
+Line 9: Parse n (number of activities) and k (number of classrooms).
+
+
+Line 13: We prepare a list intervals to hold our (start, finish) pairs.
+Line 16: We have a variable idx starting at 2 (we already used two tokens).
+Line 19–22: For each of the n intervals, read the next two integers as s and f, store them into intervals.
+Line 25: Sort the intervals by their finishing time. This is the crucial step for the greedy strategy.
+Line 28: Create an empty list ongoing, which we’ll use as a min‐heap of finishing times.
+Line 31: Initialize scheduled_count to 0; we’ll increment this each time we successfully schedule an interval.
+Line 34–38: For each interval (s, f), remove any ongoing intervals from the heap if their finishing time < s, thus freeing up a “classroom.”
+Line 40: If the number of ongoing intervals is still less than k, we can schedule this new interval.
+Line 41: Push f (the new finishing time) onto the ongoing min‐heap.
+Line 42: Increment scheduled_count.
+Line 48: Print the final result: the maximum number of intervals we can schedule.
+------------------------------------------------------------------------------
+We have an array A of positive integers (size 𝑛), and a special value 
+𝑚. We want the subarray that:
+
+Contains exactly one occurrence of 𝑚.
+
+Has no elements less than 𝑚
+(so all elements are ≥ 𝑚).
+Maximizes the sum (weight) of that subarray
+
+Key Observations
+Any element < 𝑚
+cannot appear in the valid subarray (it would make min < 𝑚),
+ so such elements break the array into “segments.”
+Inside a segment where all elements are ≥ 𝑚,
+there can be multiple ms, 
+but our chosen subarray can only include exactly one m. 
+So we effectively split each segment by the positions of m.
+We use prefix sums to quickly get subarray sums.
+Below is a solution that implements this approach in detail
+
+Lines 1–2: Standard Python setup: we import sys for reading data.
+Line 4: solve() function that encapsulates the entire logic.
+Line 7: Read the entire input as a single string, strip whitespace, and split into tokens.
+Line 10: t = int(input_data[0]): Number of test cases.
+Line 13: idx = 1: We’ll start parsing from the second token next.
+Line 16: Prepare a list answers to store results for each test case.
+Line 19: Loop over range(t) to handle each test case.
+Line 21: Read n.
+Line 23: Read m.
+Line 25: Read the next n integers into A.
+Line 27–28: Build prefix sums array p. Now p[i+1] = p[i] + A[i].
+Line 32: Initialize max_sum = 0. We’ll keep track of the maximum subarray sum we find.
+Line 35–36: A while loop that scans over A. If A[start] < m, skip it—no valid subarray can cross an element < m.
+Line 42: We found a segment from seg_start up to seg_end (inclusive) in which all elements are >= m.
+Line 45: Collect positions in the segment where the element is exactly m.
+Line 49: If no m found in this segment, continue to the next segment.
+Line 53: Insert “sentinel” positions: one just before the segment, and one just after, so we can define boundaries easily around each single m.
+Line 60–65: For each actual m at positions_of_m[j], define the left boundary as positions_of_m[j-1]+1 and the right boundary as positions_of_m[j+1]-1. Use prefix sums to compute that subarray’s sum. Update max_sum if bigger.
+Line 69: Once we’ve scanned all segments for this test case, max_sum is the best possible. Append it to answers.
+Line 73: Print all answers, one per line.

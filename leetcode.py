@@ -36,25 +36,23 @@ class Solution:
         """
         Do not return anything, modify nums1 in-place instead.
 
-        we use two pointers: ptr1 and ptr2. 
+        we use two pointers: i and j. 
 
-        We 
+        We start from the back and sort the biggest number using indexes or "pointers" 
         """
-        ptr1 = m -1 
-        ptr2 = n -1 
+        i = m -1 
+        j = n -1 
         p = n + m -1 
-        while ptr1 >= 0 and ptr2 >= 0:
-            if nums1[ptr1] > nums2[ptr2]:
-                nums1[p] = nums1[ptr1]
-                ptr1 -= 1
+        while i >= 0 and j >= 0:
+            if nums1[i] > nums2[j]:
+                nums1[p] = nums1[i]
+                i -= 1
             else: 
-                nums1[p] = nums2[ptr2]
-                ptr2 -= 1 
+                nums1[p] = nums2[j]
+                j -= 1 
             p -= 1 
-        while ptr2 >= 0: 
-            nums1[p] = nums2[ptr2]
+        while j >= 0: 
+            nums1[p] = nums2[j]
             p -=1
-            ptr2 -= 1
-        return nums1
-sol = Solution()
-print(sol.merge([1,2,3,0,0,0],3,[2,5,6], 3 ))
+            j -= 1
+    

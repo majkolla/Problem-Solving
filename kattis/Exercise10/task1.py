@@ -1,5 +1,15 @@
 import sys 
+"""
+- we do a prime factorise m 
+- use legendre's formula 
 
+edge cases: 
+- m = 0 undivisieble 
+- m = 1 always divides 
+n = 0 only divides 0!
+
+we look at the factorial function 
+"""
 def primes(x: int) -> dict[int, int]: 
     f : dict = {}
     d : int = 2

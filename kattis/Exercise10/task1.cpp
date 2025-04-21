@@ -1,8 +1,8 @@
 #include <bits/stdc++.h>
+
 using namespace std;
 using int64 = long long;
 
-/* ---------- prime sieve (√2^31 ≈ 46340) ---------- */
 vector<int> build_primes() {
     const int LIM = 46350;
     vector<bool> is_prime(LIM + 1, true);
@@ -17,7 +17,8 @@ vector<int> build_primes() {
 }
 
 /* exponent of p in n! (Legendre) */
-inline int64 vp_in_fact(int n, int p) {
+inline int64 vp_in_fact(int n, int p) 
+{
     int64 cnt = 0;
     for (int64 power = p; power <= n; power *= p)
         cnt += n / power;
@@ -25,21 +26,33 @@ inline int64 vp_in_fact(int n, int p) {
 }
 
 bool divides_factorial(int n, int m, const vector<int>& primes) {
-    if (m == 0) return false;          // 0 never divides
-    if (m == 1) return true;           // 1 always divides
-    if (n == 0) return m == 1;         // 0! = 1
+    if (m == 0) 
+        return false;          // 0 never divides
+    if (m == 1) 
+        return true;           // 1 always divides
+    if (n == 0) 
+        return m == 1;         // 0! = 1
 
     int tmp = m;
-    for (int p : primes) {
-        if (1LL * p * p > tmp) break;
-        if (tmp % p == 0) {
+    for (int p : primes) 
+    {
+        if (1LL * p * p > tmp) 
+            break;
+        if (tmp % p == 0) 
+        {
             int need = 0;
-            while (tmp % p == 0) { tmp /= p; ++need; }
-            if (vp_in_fact(n, p) < need) return false;
+            while (tmp % p == 0) 
+            { 
+                tmp /= p; ++need; 
+            }
+            if (vp_in_fact(n, p) < need) 
+                return false;
         }
     }
-    if (tmp > 1) { // remaining prime factor > √m
-        if (vp_in_fact(n, tmp) < 1) return false;
+    if (tmp > 1) 
+    { 
+        if (vp_in_fact(n, tmp) < 1) 
+            return false;
     }
     return true;
 }

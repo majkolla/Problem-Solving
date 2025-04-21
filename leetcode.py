@@ -56,3 +56,54 @@ class Solution:
             p -=1
             j -= 1
     
+    def isValid(self, s : str) -> bool: 
+        """
+        string containing: (,),{,},[,]
+        the string is valid if: 
+            - open brackets must be closed by the same type
+            - open brackets must be closed in the correct order 
+            - 
+
+        solution: 
+        - number of brackets needs to be divisible by 2 
+
+        open yes
+        next has to be same closed different open 
+        otherwise false
+
+        ( { [ ] )}
+
+        rules: 
+        if its open it needs to be followed by an open 
+        unless its the same type 
+        we can create a list or maybe just be smart about a bool 
+        a for loop and if output is false then we return false otherwise true?
+
+        """
+    def isValid(self, s: str) -> bool:
+        open : list = ['(', '{', '[']
+        close : list = [')', '}', ']']
+        lst : list = []
+        if len(s) == 1: 
+            return False 
+        for char in s:
+            if char in open: 
+                lst.append(char)
+            elif lst and lst[-1] == open[close.index(char)]:  
+                lst.pop()
+            else:
+                return False
+        return True if not lst else False 
+
+
+    def mergeTwoLists(self, list1, list2):
+        # check which is longer 
+        # loop through the longer one and remove elements 
+        # pop removes the last element so we start backwards loop the other way and pop 
+        if len(list1) > len(list2): 
+            for i in range(len(list2), 1, -1):
+                pass 
+        else: 
+            for i in range(len(list2), 1, -1):
+              pass
+             

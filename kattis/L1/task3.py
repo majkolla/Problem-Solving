@@ -1,7 +1,9 @@
 import sys
 from bisect import bisect_left
 
-
+"""
+an implemetation of list indicies 
+"""
 # https://docs.python.org/3/library/bisect.html
 # bisect_left(a, x, lo=0, hi=len(a), *, key=None) 
 # 

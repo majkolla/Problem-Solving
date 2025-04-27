@@ -20,7 +20,6 @@ the idea:
 
 import sys
 
-
 def solve():
     # Read all the input to a list 
     #O(n)
@@ -45,9 +44,13 @@ def solve():
             weights.append(data[i+1])
             i += 2
 
-        dp = [0] * (C + 1) # create the dp table 
+        dp = [0] * (C + 1)               # create the dp table 
+
+        # create a keep[j][cap] == True which is the same as  item j is used to reach dp[cap]
+        keep = [[False]*(C + 1) for _ in range(n)]
+
         # for each item j scan cap. from C to w_j
-        #So we haev O(n C)
+        #So we have O(n C)
         for j in range(n):
             v = values[j]
             w = weights[j]
@@ -55,25 +58,27 @@ def solve():
                 newv = dp[cap - w] + v
                 if newv > dp[cap]:
                     dp[cap] = newv
+                    keep[j][cap] = True   # remember that j is taken here
 
         #reconstruct an optimal solution O(n)
+        
         cap = C
         chosen = []
 
-        for j in range(n-1, -1, -1): #check every item once
-            w = weights[j]
-            v = values[j]
-            # check if item j was used 
-            if cap >= w and dp[cap] == dp[cap - w] + v:
+        for j in range(n-1, -1, -1):      #check every item once
+            if keep[j][cap]:              # was item j used for this cap
                 chosen.append(j)
-                cap -= w
+                cap -= weights[j]         # move to the remaining capacity
+
+        chosen.reverse()                  # put indices in ascending order to get the correct output
 
         # record the result for the test case O(n)
         out.append(str(len(chosen)))
         out.append(" ".join(str(x) for x in chosen))
-    
-    # output everything at once so we get O(k) where k is the lenght of the ouput
-    sys.stdout.write("\n".join(out))
+
+
+    sys.stdout.write("\n".join(out)) #output everything at the same time so we get O(k)
+
 
 """
 thus we have a solution that is O(n * C) in complexity! 

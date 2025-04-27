@@ -6,54 +6,55 @@ from bisect import bisect_left
 # bisect_left(a, x, lo=0, hi=len(a), *, key=None) 
 # 
 
-def lis_indices(seq): #longest increasing subsequence with indicies 
-    """Return indices of one longest strictly-increasing subsequence"""
-    
+#!/usr/bin/env python3
+"""Longest increasing subsequence with earliest indices (O(n log n))."""
+
+import sys
+from bisect import bisect_left
+
+def lis_indices(seq):
+    """Return 0-based indices of ONE LIS, choosing the left-most one if many."""
     if not seq:
         return []
 
-    tails = []              # tails[v]  is the value of last element of a LIS of length v+1
-    tails_idx = []          # tails_idx[v] is the  index in seq of that tail
-    parent = [-1]*len(seq)  # parent[i] is the previous index in the LIS that ends at i
+    tails, tails_idx = [], []          # minimum tail value / its index for each length
+    parent = [-1] * len(seq)           # link to predecessor in the LIS
 
     for i, x in enumerate(seq):
-        # position where x would go in the current tails array
-        
-        pos = bisect_left(tails, x)
-        if pos == len(tails):
+        pos = bisect_left(tails, x)    # where would x go?
+        if pos == len(tails):          # longer subsequence found
             tails.append(x)
             tails_idx.append(i)
-        else:
-            tails[pos]  = x
+            parent[i] = tails_idx[pos-1] if pos else -1
+        elif x < tails[pos]:           # strictly better (smaller) tail → update
+            tails[pos] = x
             tails_idx[pos] = i
+            parent[i] = tails_idx[pos-1] if pos else -1
+        # else: x == tails[pos]  → keep the earlier index already stored
 
-        # link to predecessor if it exists
-        parent[i] = tails_idx[pos-1] if pos > 0 else -1
-
-    # now we reconstruct LIS by following parent links from last tail
+    # reconstruct one LIS by backtracking
     k = tails_idx[-1]
-    lis = []
+    out = []
     while k != -1:
-        lis.append(k)
+        out.append(k)
         k = parent[k]
-    lis.reverse()
-    return lis            # list of indices
+    return out[::-1]                   # earliest indices, strictly increasing order
 
-def solve() -> None:
+
+def main() -> None:
+    """Friendlier line-by-line I/O until EOF."""
     out_lines = []
-    # iterate over each stdin line
-    for line in sys.stdin:
+    for line in sys.stdin:             # read first line of every test case
         line = line.strip()
-        if not line:            # skip blank lines (rare in Kattis, but harmless)
-            continue
-        n = int(line)           # first line of test case
-        # second line: n integers (we assume they are on a single line)
-        seq = list(map(int, sys.stdin.readline().split()))
-        idx = lis_indices(seq)
+        if not line:
+            continue                   # skip blank lines just in case
+        n = int(line)
+        nums = list(map(int, sys.stdin.readline().split()))
+        idx = lis_indices(nums)
         out_lines.append(str(len(idx)))
         out_lines.append(" ".join(map(str, idx)))
 
     sys.stdout.write("\n".join(out_lines))
 
 
-solve()
+main()

@@ -92,7 +92,7 @@ class Solution:
             elif lst and lst[-1] == open[close.index(char)]:  
                 lst.pop()
             else:
-                return False
+                return False  
         return True if not lst else False 
 
 
@@ -100,10 +100,22 @@ class Solution:
         # check which is longer 
         # loop through the longer one and remove elements 
         # pop removes the last element so we start backwards loop the other way and pop 
-        if len(list1) > len(list2): 
-            for i in range(len(list2), 1, -1):
-                pass 
-        else: 
-            for i in range(len(list2), 1, -1):
-              pass
-             
+        lst : list = list1 + list2
+        return lst.sort()
+        
+
+    def numEquivDominoPairs(self, dominoes: list[list[int]]) -> int:
+        from collections import Counter 
+        cnt = Counter()
+        ans = 0
+
+        for a,b in dominoes: 
+            if a <= b: 
+               key = a,b
+            else: 
+               key = b, a
+            cnt[key] += 1 
+
+        for add in cnt.values(): 
+            ans += add * (add - 1) // 2
+        return ans  

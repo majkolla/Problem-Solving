@@ -1,3 +1,8 @@
+"""
+i did the proof by hand: ill update later but its intersting! 
+
+"""
+
 import sys, random, math
 from functools import reduce
 

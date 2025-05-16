@@ -1,11 +1,7 @@
-#!/usr/bin/env python3
-"""
-White‑water rafting ride – maximum raft radius (bug‑fixed)
-"""
+
 import sys
 import math
 
-# ---------- geometry helpers -------------------------------------------------
 def dot(a, b):
     return a[0]*b[0] + a[1]*b[1]
 
@@ -13,7 +9,6 @@ def sub(a, b):
     return (a[0]-b[0], a[1]-b[1])
 
 def seg_dist_sq(p, q, r, s):
-    """Squared distance between segments PQ and RS (2‑D)."""
     u = sub(q, p)
     v = sub(s, r)
     w = sub(p, r)
@@ -29,7 +24,7 @@ def seg_dist_sq(p, q, r, s):
     sN, tN = 0.0, 0.0
     sD, tD = D, D
 
-    if D < SMALL:            # almost parallel
+    if D < SMALL:           
         sN, sD = 0.0, 1.0
         tN, tD = e, c
     else:
@@ -66,7 +61,6 @@ def seg_dist_sq(p, q, r, s):
           w[1] + sc*u[1] - tc*v[1])
     return dot(dp, dp)
 
-# ---------- main -------------------------------------------------------------
 buf = sys.stdin.buffer.read().split()
 if not buf:
     sys.exit(0)
@@ -79,7 +73,6 @@ for _ in range(T):
     no  = int(next(it))
     outer = [(int(next(it)), int(next(it))) for _ in range(no)]
 
-    # edges: consecutive pairs, wrapping around with modulo
     inner_edges = [(inner[i], inner[(i+1) % ni]) for i in range(ni)]
     outer_edges = [(outer[i], outer[(i+1) % no]) for i in range(no)]
 

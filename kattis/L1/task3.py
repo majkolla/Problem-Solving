@@ -1,62 +1,83 @@
-import sys
-from bisect import bisect_left
+"""
+Longest Increasing Subsequence 
+
+Given one or more integer sequences we are supposed to 
+compute an increasing subsequence of maximum possible
+length and then we output
+
+- the length of that subsequence
+- the indices of its elements, in the increasing order
+
+
+Michael Birtman micbi949
 
 """
-an implemetation of list indicies 
-"""
-# https://docs.python.org/3/library/bisect.html
-# bisect_left(a, x, lo=0, hi=len(a), *, key=None) 
-# 
-
-#!/usr/bin/env python3
-"""Longest increasing subsequence with earliest indices (O(n log n))."""
-
+import bisect # a module that does binary search (https://docs.python.org/es/3.13/library/bisect.html)
 import sys
-from bisect import bisect_left
 
-def lis_indices(seq):
-    """Return 0-based indices of ONE LIS, choosing the left-most one if many."""
-    if not seq:
-        return []
 
-    tails, tails_idx = [], []          # minimum tail value / its index for each length
-    parent = [-1] * len(seq)           # link to predecessor in the LIS
+
+def lis(seq: list[int]) -> list[int]:
+    """
+    Return **one** longest increasing subsequence of seq,
+    represented as the list of based indices pointing into seq.
+
+    time complexity  : O(n log n)
+    memory : O(n)
+    """
+    n = len(seq)
+    # tails_value[k]  – smallest possible tail value of an increasing
+    #                   subsequence of length k+1
+    # tails_index[k]  – index in seq where that tail value occurs
+    tails_value: list[int] = []
+    tails_index: list[int] = []
+
+    pred = [-1] * n # index of the elelemnt before i in the best current seq 
 
     for i, x in enumerate(seq):
-        pos = bisect_left(tails, x)    # where would x go?
-        if pos == len(tails):          # longer subsequence found
-            tails.append(x)
-            tails_idx.append(i)
-            parent[i] = tails_idx[pos-1] if pos else -1
-        elif x < tails[pos]:           # strictly better (smaller) tail → update
-            tails[pos] = x
-            tails_idx[pos] = i
-            parent[i] = tails_idx[pos-1] if pos else -1
-        # else: x == tails[pos]  → keep the earlier index already stored
+        pos = bisect.bisect_left(tails_value, x)
+        if pos == len(tails_value):
+            tails_value.append(x)
+            tails_index.append(i)
+        else:
+            tails_value[pos] = x
+            tails_index[pos] = i
 
-    # reconstruct one LIS by backtracking
-    k = tails_idx[-1]
-    out = []
+        if pos:                        # link to predecessor
+            pred[i] = tails_index[pos - 1]
+
+    # Reconstruct lis using backtracking
+    k = tails_index[-1] if tails_index else -1
+    result: list[int] = []
     while k != -1:
-        out.append(k)
-        k = parent[k]
-    return out[::-1]                   # earliest indices, strictly increasing order
+        result.append(k)
+        k = pred[k]
+    result.reverse()
+    return result
 
 
-def main() -> None:
-    """Friendlier line-by-line I/O until EOF."""
-    out_lines = []
-    for line in sys.stdin:             # read first line of every test case
-        line = line.strip()
-        if not line:
-            continue                   # skip blank lines just in case
-        n = int(line)
-        nums = list(map(int, sys.stdin.readline().split()))
-        idx = lis_indices(nums)
-        out_lines.append(str(len(idx)))
-        out_lines.append(" ".join(map(str, idx)))
+def solve():
+    """
+    Solve with sys library for the 
+    """
+    data = sys.stdin.read().strip().split()
+    if not data:
+        return
+
+    out_lines: list[str] = []
+    ptr = 0
+    while ptr < len(data):
+        n = int(data[ptr])
+        ptr += 1
+        seq = list(map(int, data[ptr: ptr + n]))
+        ptr += n
+
+        idxs = lis(seq)
+        out_lines.append(str(len(idxs)))
+        out_lines.append(" ".join(map(str, idxs)))
 
     sys.stdout.write("\n".join(out_lines))
 
 
-main()
+if __name__ == "__main__":
+    solve()

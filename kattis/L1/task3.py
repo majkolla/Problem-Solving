@@ -26,9 +26,7 @@ def lis(seq: list[int]) -> list[int]:
     memory : O(n)
     """
     n = len(seq)
-    # tails_value[k]  – smallest possible tail value of an increasing
-    #                   subsequence of length k+1
-    # tails_index[k]  – index in seq where that tail value occurs
+
     tails_value: list[int] = []
     tails_index: list[int] = []
 
@@ -43,15 +41,22 @@ def lis(seq: list[int]) -> list[int]:
             tails_value[pos] = x
             tails_index[pos] = i
 
-        if pos:                        # link to predecessor
+        if pos:                        
             pred[i] = tails_index[pos - 1]
 
     # Reconstruct lis using backtracking
-    k = tails_index[-1] if tails_index else -1
+    if tails_index: 
+        k = tails_index[-1]
+    else: 
+        -1
     result: list[int] = []
+    
+    
     while k != -1:
         result.append(k)
         k = pred[k]
+    
+    
     result.reverse()
     return result
 

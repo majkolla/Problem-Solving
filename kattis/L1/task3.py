@@ -71,7 +71,7 @@ def solve():
 
     out_lines: list[str] = []
     ptr = 0
-    while ptr < len(data):
+    while ptr < len(data): 
         n = int(data[ptr])
         ptr += 1
         seq = list(map(int, data[ptr: ptr + n]))

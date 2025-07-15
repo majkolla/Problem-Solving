@@ -19,7 +19,7 @@ import sys
 
 def lis(seq: list[int]) -> list[int]:
     """
-    Return **one** longest increasing subsequence of seq,
+    Returns one of the longest increasing subsequence of seq,
     represented as the list of based indices pointing into seq.
 
     time complexity  : O(n log n)
@@ -83,6 +83,4 @@ def solve():
 
     sys.stdout.write("\n".join(out_lines))
 
-
-if __name__ == "__main__":
-    solve()
+solve()

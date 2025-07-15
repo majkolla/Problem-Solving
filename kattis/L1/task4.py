@@ -16,7 +16,7 @@ we are going to be using union find
 
 
 Complexities
-- time : O((N + Q) · α(N))  here o is the ackerman function that grows very slowly so we are basically dealing with a constant 
+- time : O((N + Q) · (N))  here o is the ackerman function that grows very slowly so we are basically dealing with a constant 
 so we get: - O(N + Q)
 - memory : O(N) integers (parent, size)
 
@@ -36,14 +36,14 @@ def find(x: int, parent : list[int]) -> int:
 
 
 def solve() -> None:
-    data = sys.stdin.buffer.read().split()
+    data = sys.stdin.read().split()
     if not data:
         return
 
     n = int(data[0])
     q = int(data[1])
 
-    # Union-Find initialisation
+    # union find init 
     parent: list[int] = list(range(n))
     size:list[int] = [1] * n          # valid at roots
 
@@ -57,7 +57,7 @@ def solve() -> None:
         b = int(data[idx + 2])
         idx += 3
 
-        if op == b'=':          # union
+        if op == '=':          # union
             ra = find(a, parent)
             rb = find(b, parent)
             if ra != rb:        # merge smaller under larger

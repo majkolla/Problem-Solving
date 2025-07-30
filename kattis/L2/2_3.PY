@@ -34,10 +34,10 @@ def shortest_path(graph, n, start):
                 dist[v]   = dist[u] + w
                 parent[v] = u
                 changed = True
-        if not changed:                    # early stop
+        if not changed:                    # stop early 
             break
 
-    # Find vertices that we still can improve on  after neg-cycle 
+    # Find vertices that we still can improve on  after the negative cycle 
     in_neg = [False] * n
     for u, v, w in graph:
         if dist[u] != INF and (dist[u] + w < dist[v]):
@@ -70,10 +70,10 @@ def main():
     out_lines = []
 
     while True:
-        line = it.readline()
+        line = it.readline().split()
         if not line:
             break
-        n, m, q, s = map(int, line.split())
+        n, m, q, s = map(int, line)
         if n == m == q == s == 0:
             break
 
@@ -84,7 +84,7 @@ def main():
             edges.append((u, v, w))
 
 
-        dist, parent, in_neg = shortest_path(edges, n, s)
+        dist, parent, in_neg = shortest_path(edges, n, s) 
 
         for _ in range(q):
             t = int(it.readline())

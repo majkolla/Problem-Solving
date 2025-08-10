@@ -1,8 +1,7 @@
 """
 Michael Birtman - micbi949
 
-General Chinese Remainder Theorem (non-coprime moduli)
-=====================================================
+
 Solve, for each test case:
     x tripple equal a (mod n)
     x tripple equal b (mod m)
@@ -24,7 +23,7 @@ Then we compute
 return x % K, K
 
 
-From previous stuf we knot that the extended gcd / inverse is 
+From previous stuff we know that the extended gcd / inverse is 
 O(log m) per case.
 
 and just like before ints are unbounded in python so no need to think baout overflow
@@ -33,7 +32,7 @@ and just like before ints are unbounded in python so no need to think baout over
 import sys
 
 
-# Extended Euclidean algorithm → (g, x, y) with g = a*x + b*y
+# Extended Euclidean algorithm: (g, x, y) with g = a*x + b*y
 def egcd(a: int, b: int) -> tuple[int, int, int]:
     if b == 0:
         return (a, 1, 0)
@@ -56,7 +55,7 @@ def crt_general(a: int, n: int, b: int, m: int) -> tuple[int, int] | None:
         return None
 
     n_g, m_g = n // g, m // g                     # reduced coprime moduli
-    # combine using modular inverse of n' modulo m'
+    # combine by doing modular inverse of n' modulo m'
     inv = mod_inv(n_g, m_g)
     t = ((b - a) // g) * inv % m_g
     x = a + n * t
@@ -64,7 +63,7 @@ def crt_general(a: int, n: int, b: int, m: int) -> tuple[int, int] | None:
     return x % K, K
 
 
-def main() -> None:
+def main():
     it = sys.stdin
     T = int(it.readline())
     out_lines = []

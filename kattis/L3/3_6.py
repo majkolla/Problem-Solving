@@ -19,9 +19,9 @@ With prime moduli the solution is unique modulo K.  Let
 
 then we just set
     t  =  ( (b - a) mod m) * n^-1  mod m      ( 0 <= t < m )  
-    x  =  a + n * t                         ( 0 <= x < nm )
+    x  =  a + n * t      ( 0 <= x < nm )
 
-Proof:  
+proof idea:  
 x tripple equal a (mod n) by construction.  
 then we know that
 x tripple equal a + nt tripple equal a + (b - a) tripple equal b (mod m)
@@ -29,7 +29,7 @@ x tripple equal a + nt tripple equal a + (b - a) tripple equal b (mod m)
 Complexities
 ------------
 - gcd for  inverse O(log m)  
--  other ops are O(1).  
+-  rest of the operations are O(1) 
 
 note that python ints cannot overflow 
 """
@@ -49,7 +49,7 @@ def mod_inv(a: int, mod: int) -> int:
     """Return a^{-1} mod 'mod', assume that gcd(a, mod) = 1."""
     g, x, _ = egcd(a, mod)
     if g != 1:
-        print("test")
+        print("test (we shouldnt be here)")
     return x % mod
 
 

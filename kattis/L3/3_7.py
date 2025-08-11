@@ -12,11 +12,11 @@ we let g = gcd(n, m) then  a solution exists iff (a - b) % g == 0.
 
 then we know that if there is no solution we just print no solution
 
-Otherwise we reduce to it to the co prime modulo
+otherwise we reduce to it to the co prime modulo
     n' = n / g,  m' = m / g
-Let inv = (n')^{-1} mod m' (must exist bc of assumption  gcd(n', m') = 1)
+let the inv = (n')^{-1} mod m' (must exist bc of assumption  gcd(n', m') = 1)
 
-Then we compute 
+then we compute 
     t = ((b - a) / g) * inv  mod m'
     x = a + n * t
     K = lcm(n, m) = n / g * m
@@ -54,12 +54,12 @@ def crt_general(a: int, n: int, b: int, m: int) -> tuple[int, int] | None:
     if (a - b) % g != 0:
         return None
 
-    n_g, m_g = n // g, m // g                     # reduced coprime moduli
+    n_g, m_g = n // g, m // g  # reduced coprime moduli
     # combine by doing modular inverse of n' modulo m'
     inv = mod_inv(n_g, m_g)
     t = ((b - a) // g) * inv % m_g
     x = a + n * t
-    K = n_g * m                                    # lcm(n, m)
+    K = n_g * m     # lcm(n, m)
     return x % K, K
 
 
@@ -76,6 +76,5 @@ def main():
             x, K = res
             out_lines.append(f"{x} {K}")
     sys.stdout.write("\n".join(out_lines))
-
 
 main()

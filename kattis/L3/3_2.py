@@ -37,10 +37,10 @@ class SuffixArray:
     # construction of the suffix array O(s log s)
     def _build_sa(self, s: str) -> list[int]:
         n = len(s)
-        sa = list(range(n))                         # initial order 
-        rank = [ord(c) for c in s]                  # rank by single char https://www.w3schools.com/python/ref_func_ord.asp 
-        tmp = [0] * n                               # helper array
-        k = 1                                       # current 2^k prefix len
+        sa = list(range(n))    # initial order 
+        rank = [ord(c) for c in s]    # rank by single char https://www.w3schools.com/python/ref_func_ord.asp 
+        tmp = [0] * n                     # helper array
+        k = 1          # current 2^k prefix len
 
         # heklp function:  counting sort by key
         def counting_sort(indices: list[int],
@@ -48,10 +48,10 @@ class SuffixArray:
                           max_val: int) -> list[int]:
             cnt = [0] * (max_val + 2)               # +2
             for i in indices:
-                cnt[key_fn(i) + 1] += 1             # shift by +1
+                cnt[key_fn(i) + 1] += 1     # shift by +1
             
             for i in range(1, len(cnt)):
-                cnt[i] += cnt[i - 1]                # prefix sums
+                cnt[i] += cnt[i - 1]  # prefix sums
             out = [0] * len(indices)
             
             for i in reversed(indices):
@@ -86,8 +86,8 @@ class SuffixArray:
                 if (cur_rank, cur_next_rank) != (prev_rank, prev_next_rank):
                     r += 1
                 tmp[cur] = r
-            rank, tmp = tmp, rank                   # swap buffers
-            if r == n - 1:                          # all ranks are unique
+            rank, tmp = tmp, rank    # swap buffers
+            if r == n - 1:    # all ranks unique
                 break
             k *= 2
         return sa

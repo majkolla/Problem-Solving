@@ -24,6 +24,32 @@ Complexities
 ------------
 Time   O(n · C)   
 Memory O(C)     
+
+
+I solve this problem by doig an array dp and extra pointers. 
+So for some capacity c we have val_at[c], which stores the max val of the subsets of the items 
+that we have into the knapsack. We then do: 
+for each item i with weight w and val v we loop c backwards from c to w. 
+
+At capacity c we have two options, either choose item i or skip item i. if we skip then we keep 
+the old val if we take we then we have previous items beign in the cap. c -w with val [c-w] and 
+the new val is val_at[c-w] + v. 
+
+So we just picj the better one. We run backwards loop, so we look at the solutions not contining
+the item we're currently looking at.
+
+the dp table will just update and build any solution that fits into the cap. So finally we get 
+val_at[C] being the optimal val. 
+
+Then we reconstruct which items we took, so 
+
+    while c >= 0 and item_at[c] != -1:
+        i = item_at[c]
+        chosen.append(i)
+        c = prev_cap[c]
+
+we walk backwars in the optimal solution an collect the items in reverse order 
+then we reverse chosen list and get the items in correct order. 
 """
 
 import sys

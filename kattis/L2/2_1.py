@@ -45,6 +45,19 @@ def shortest_path(graph, start):
                 heapq.heappush(pq, (nd, v)) # push it into heap 
     return dist, parent
 
+def reconstruct_path(parent, start, target):
+    path = []
+    cur = target
+    while cur != -1:
+        path.append(cur)
+        if cur == start:
+            break
+        cur = parent[cur]
+
+    path.reverse()
+    return path
+
+
 def main():
     it = sys.stdin
     out_lines = []
@@ -61,12 +74,13 @@ def main():
             u, v, w = map(int, it.readline().split())
             G[u].append((v, w))
 
-        dist, _ = shortest_path(G, s) # run dijstras 
+        dist, parent = shortest_path(G, s) # run dijstras 
 
         for _ in range(q):
             t = int(it.readline())
             if dist[t] != INF: 
                 out_lines.append(str(dist[t]))
+                # print the path here if we want to 
             else: 
                 out_lines.append("Impossible")
         out_lines.append("")   # blank line between test cases

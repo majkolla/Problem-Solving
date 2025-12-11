@@ -63,6 +63,19 @@ def shortest_path(graph, n, start):
 
     return dist, parent, in_neg
 
+def reconstruct_path(target, start, parent):
+    path = []
+    cur = target
+    while cur != -1:
+        path.append(cur)
+        if cur == start:
+            break
+        cur = parent[cur]
+
+    if not path or path[-1] != start:
+        # unreachable
+        return []
+
 
 
 def main():

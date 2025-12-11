@@ -53,7 +53,21 @@ def shortest_path(graph, start):
                 parent[v] = u
                 heapq.heappush(pq, (arr, v))
     return dist, parent
+def reconstruct_path(target, start, parent):
+    path = []
+    cur = target
+    while cur != -1:
+        path.append(cur)
+        if cur == start:
+            break
+        cur = parent[cur]
 
+    if not path or path[-1] != start:
+        # unreachable
+        return []
+
+    path.reverse()
+    return path
 def main():
     it = sys.stdin
     out_lines = []

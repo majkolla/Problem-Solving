@@ -8,6 +8,24 @@ We are given test case containing two polynomials: p, q
 https://www.geeksforgeeks.org/dsa/fast-fourier-transformation-poynomial-multiplication/
 complexity 
 
+
+we want the coeff. of their their product: 
+r = pq
+
+ABOUT FFT: 
+we treat the coeff. list as polynomials and we then run fft on both lists. the point is taht 
+polynomail multiplication becomes potinwise in the freq. domain. 
+We do the multiplcaiton and then inverse it to get back the coeff. of r. 
+
+
+ABOUT CT FFT: 
+- first we split the array in even and odd idxs, and then we compute the FFT on each half 
+THen we combine them using powers of omega 
+for the inverse FFT we use divide by two in each recursionlevel. 
+
+
+
+
 we use a divide and conquer method with fft which is a cooley tukey implementation we såöot omtp pdd amd evem omdoecoes amd then we combine 
 we do a point wise mult in freq domain and inverse, also we round. 
 time:  O(n log n) 

@@ -12,6 +12,40 @@ I uypdate the dist between i and j using different paths (intermediate nodes),
 if dist between k and k is less than 0 i know i have negative cyucle and i mark all the nodes that can be affected 
 
 then i just print 
+
+
+updates: 
+
+Question: 
+We get a Directed graph with n nodesm m edges and weights and up to q queires. Each query ask for
+the min distance from nodu u to v. We can have negative weights. 
+
+We use Floyd-Warshall alg. to compute all the pairs of shortest paths. So: 
+dist[i][j] = min dist. from i to j (if no neg. cycle are on that path)
+
+Flloyd warshall, is a dp alg. so we consider a set of nodes as possible inbetween nodes in 
+the path. Then after processing a node k we get the best distance from only having the 
+inbetween nodes being from 0, ..., k. 
+
+So basically, either we have a path from i to j that doesnt goes through k 
+or it goes through k (once or more) and then we split the path at k and use the shortest path
+from i to k and shortest path from k to j. 
+
+Negative cycles: 
+FFlod warshall gives everything correct if there is no negative cycle. For example if 
+we have i ->k and k ->j. and k is on a neg cycle we can just loop around in infity 
+to get as "short" (weird word to use here maybe) path as possible 
+
+So after the main Floyd warshall we do another tripple forloop: 
+for each k with dist[k][k] < 0
+    for every i that can reach k
+        for every j htat is reachbel from k 
+            mark pair (i,j) as affected by negative cycle 
+
+So we store this in a bool matrix adn if it's true then we just answer - infinity otherwise
+otheriwse if dist[u][v] is still infinite there is no path and we just answer impossible. 
+otherwise we just return the normal (finite) val dist[u][v]
+
 """
 
 import sys

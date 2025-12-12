@@ -8,6 +8,26 @@ in linear time, O(len(text) + len(pattern)), and prints their
 indices for each test case.
 
 https://www.geeksforgeeks.org/dsa/kmp-algorithm-for-pattern-searching/
+
+So every test case have two lines: 
+
+non empty pattern p 
+non empty text T 
+
+We use KMP becuase a KMP reuse info about the pattern so that the text idx never goes backwards 
+So we get a lienar time. 
+
+LPS arr: 
+for each i, lps[i] is the len of the longest prefix of hte pattern[0, i+1] that is also a suffix 
+of pattern[0, i+1]. 
+
+For example: pattern = "ababaca"
+prefixes are "a", "ab", "aba", "abab", ... 
+and lps[i] then tells us how many chars of the prefix still match if we had
+a mismatch at pos i+1
+
+when we search, and a mismatch happens after we matched j chats of the pattern we go back to
+lps[j-1] chars instead of restarting from 0. 
 """
 
 import sys

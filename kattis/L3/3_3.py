@@ -1,5 +1,5 @@
 """
-Michael Birtman – micbi949
+Michael Birtman - micbi949
 
 we're going to reuse the same stuff from the previous exercise see this link for more stuff about it 
 https://cp-algorithms.com/string/suffix-array.html).  
@@ -16,6 +16,28 @@ Complexities
 -  Constructo -  O(n log n)  
 -  lcp using kaisais - O(n)  
 -  ans lookup O(1)
+
+
+
+------------ improvements: 
+
+every substring is a prefix of some suffix, so if a substring
+appears at least twice we have two suffixes that starts with that 
+substring. 
+
+So: 
+longest repeated substring len is the same as 
+maximum common prefix len among any two suffixes. 
+
+Therefore, if we sort all suffixes lexicographically then suffixes 
+that share long prefixes becomes neighbors in that order. Hence the longest 
+repeated substring len equals to: max LCP between adjecent suffixes 
+
+
+So: 
+- build suffix arr SA of s in o(n logn)
+- build LCP arr O(n) (kasai)
+- answer max(LCP) constant time 
 
 """
 

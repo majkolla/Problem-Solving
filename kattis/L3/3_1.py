@@ -27,7 +27,17 @@ and lps[i] then tells us how many chars of the prefix still match if we had
 a mismatch at pos i+1
 
 when we search, and a mismatch happens after we matched j chats of the pattern we go back to
-lps[j-1] chars instead of restarting from 0. 
+lps[j-1] chars instead of restarting from 0. Therefore we get the longest prefix of the pattern! 
+
+Summary: 
+
+- compute lps for the pattern
+- scan the text with idx i (left to right) and get how many chars of the pattern that match
+- if text[i] == pattern[j] we advance both
+- if j reaches the len(patt) we know we found the neding at i so the starting index is i - len(opattern) + 1
+ so we record it and then let j = lps[j-1] bc we allow for overlapping matches 
+- on mismatch and j is bigger than 0 we let j = lps[j-1] 
+on mismatch and j is 0 we just advnace 1!
 """
 
 import sys

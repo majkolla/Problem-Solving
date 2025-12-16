@@ -20,6 +20,53 @@ Internal fields
 self.sa = list of suffix start positions in the sorted order  
 self.rank = current ranks  
 
+-------------------------------------------- Added stuff
+Problem is basically: input: non empty string then a line 
+outoput: for each qi we print the starting idx of qith lexicographically
+smallest suffiex of s. 
+
+Suffix array: 
+- s[i:] for 0 <= i < n 
+- the suffix arr sa is a permuation such that 
+    s[sa[0]:] < s[sa[1]:] < ... < s[sa[n-1]:] 
+
+this way we can make any query q1 and itll be answered in constant time 
+by retuning sa[qi]!
+
+We construct this arr by using prefix doubling: 
+- sort suffixes by increasingly long prefixes of len 1,2,4, etc 
+- let rank[i] be an int class that describe us L first chars of suffic s[i:]
+- init L = 1 so rank[i] is just the chars code of ord(s[i])
+
+
+doubling step: 
+- let rank[i] be the correct repr. of fist L chars of s[i:]
+- then the first 2L chars of s[i:] are determined by the pair: 
+    rank[i], rank[i+l] since: 
+    - rank[i] represents s[i : i+L]
+    - rank[i+L] represents s[i+L : i+2L]
+
+Sorting the suffixes by these pairs therefore sorts the first 2L chars
+and after sorting we "compress" equal paris into same new rank
+therefore producing ranks for len 2L prefixes. 
+
+More about each round and complexity: 
+
+- The pair keys are integer ranks in [0..n-1, so we cna do it in linear time 
+- We do a radix sort
+    - stable counting sort by second key rank[i+L]
+    - stable counting sort by first key rank[i]
+- if we have out of range stuff, it's just treated as -1, thus no chars left 
+so shorter suffixes comes before longer ones when one is the prefix of the other 
+
+
+each round doubles L so get get at most log_2n rounds (rounded up)
+
+
+Complexity: 
+building the suffix arr O(nlogn) bc. time per round O(n) and O(logn) rounds 
+each query is constant time. 
+
 """
 
 import sys
